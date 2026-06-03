@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO — Branding & Visual Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Neue+Haas+Grotesk+Display+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ink: #111110;
+  --paper: #f2f0eb;
+  --mid: #888;
+  --line: rgba(17,17,16,.1);
+  --serif: 'Cormorant', Georgia, serif;
+  --sans: 'Neue Haas Grotesk Display Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.76,0,.24,1);
+  --ease-out: cubic-bezier(.22,1,.36,1);
+  --sky: #a8d4e6;
+  --sky-dark: #5fa8c8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* CURSOR */
+#cur {
+  width: 10px; height: 10px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: width .25s var(--ease), height .25s var(--ease), background .25s;
+  mix-blend-mode: multiply;
+}
+#cur.big {
+  width: 56px; height: 56px;
+  background: rgba(17,17,16,.07);
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 32px;
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: .02em;
+}
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  opacity: .4;
+  transition: opacity .2s;
+}
+.nav-links a:hover { opacity: 1; color: var(--sky-dark); }
+
+/* HERO — fullscreen */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 32px 48px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.4s var(--ease-out);
+}
+.hero-bg.loaded { clip-path: inset(0 0 0 0); }
+
+.hero-tag {
+  position: absolute;
+  top: 50%; left: 32px;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(242,240,235,.35);
+}
+.hero-index {
+  position: absolute;
+  top: 50%; right: 32px;
+  transform: translateY(-50%);
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(242,240,235,.3);
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(64px, 10vw, 140px);
+  font-weight: 300;
+  line-height: .95;
+  letter-spacing: -.03em;
+  color: var(--paper);
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 1s var(--ease-out) .5s, transform 1s var(--ease-out) .5s;
+}
+.hero-title.in { opacity: 1; transform: translateY(0); }
+.hero-title em { font-style: italic; color: var(--sky); }
+
+.hero-sub {
+  position: absolute;
+  bottom: 48px; right: 32px;
+  z-index: 2;
+  text-align: right;
+  color: rgba(242,240,235,.5);
+  font-size: 11px;
+  line-height: 1.8;
+  opacity: 0;
+  transition: opacity .8s var(--ease-out) .9s;
+}
+.hero-sub.in { opacity: 1; }
+
+/* INTRO ROW */
+.intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+}
+.intro-cell {
+  padding: 36px 32px;
+  border-right: 1px solid var(--line);
+}
+.intro-cell:last-child { border-right: none; }
+.intro-label {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 10px;
+}
+.intro-val {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 300;
+}
+
+/* TICKER */
+.ticker-wrap {
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+}
+.ticker-track {
+  display: flex;
+  white-space: nowrap;
+  animation: tick 30s linear infinite;
+}
+.ticker-track span {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  padding: 0 32px;
+}
+.ticker-track span.sep { color: var(--sky); padding: 0; }
+@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* GRID PORTFOLIO */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+
+.grid-item {
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background .4s;
+}
+
+/* Asymmetric grid placements */
+.grid-item:nth-child(1) { grid-column: 1 / 8; grid-row: 1; aspect-ratio: 16/10; }
+.grid-item:nth-child(2) { grid-column: 8 / 13; grid-row: 1; border-right: none; }
+.grid-item:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
+.grid-item:nth-child(4) { grid-column: 5 / 9; grid-row: 2; }
+.grid-item:nth-child(5) { grid-column: 9 / 13; grid-row: 2; border-right: none; }
+.grid-item:nth-child(6) { grid-column: 1 / 13; grid-row: 3; border-right: none; }
+
+.grid-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--ink);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .5s var(--ease);
+}
+
+.grid-item:hover .grid-bg { transform: scaleY(1); }
+.grid-item:hover .grid-meta,
+.grid-item:hover .grid-title,
+.grid-item:hover .grid-arrow { color: var(--paper); }
+
+.grid-inner {
+  position: relative;
+  z-index: 2;
+  padding: 28px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+
+.grid-item:nth-child(1) .grid-inner { min-height: 300px; }
+.grid-item:nth-child(6) .grid-inner { min-height: 120px; flex-direction: row; align-items: flex-end; }
+
+.grid-num {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: auto;
+  transition: color .5s;
+}
+.grid-item:hover .grid-num { color: rgba(242,240,235,.35); }
+
+.grid-title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.5vw, 38px);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  transition: color .5s;
+}
+.grid-item:nth-child(6) .grid-title { font-size: clamp(30px, 4vw, 60px); }
+
+.grid-meta {
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--mid);
+  transition: color .5s;
+  margin-top: 8px;
+}
+.grid-item:nth-child(6) .grid-meta { margin-top: 0; margin-left: 48px; }
+
+.grid-arrow {
+  font-size: 20px;
+  line-height: 1;
+  color: var(--mid);
+  transition: color .5s, transform .3s var(--ease);
+  display: block;
+  margin-top: 8px;
+}
+.grid-item:hover .grid-arrow { transform: translate(4px,-4px); color: var(--sky); }
+
+/* ABOUT — fullscreen personal */
+.about {
+  border-bottom: 1px solid var(--line);
+}
+
+/* top: photo + quote */
+.about-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 90vh;
+}
+.about-photo {
+  position: relative;
+  overflow: hidden;
+  background: #c8c5be;
+  border-right: 1px solid var(--line);
+}
+.about-photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.about-photo-placeholder span {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(17,17,16,.35);
+}
+.about-photo-icon {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(17,17,16,.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about-photo-icon svg { width: 18px; height: 18px; opacity: .3; }
+
+.about-photo-tag {
+  position: absolute;
+  bottom: 32px; left: 32px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(17,17,16,.4);
+}
+
+.about-quote {
+  padding: 64px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.about-label {
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 0;
+}
+.about-pull {
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+}
+.about-pull em { font-style: italic; }
+
+.about-byline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.about-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--sky);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.about-byline-text {}
+.about-byline-name {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 300;
+}
+.about-byline-role {
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-top: 2px;
+}
+
+/* middle: full-width text block */
+.about-body {
+  padding: 80px 48px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 48px;
+}
+.about-body-label {
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 20px;
+}
+.about-body p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: #444;
+}
+.about-body p + p { margin-top: 16px; }
+
+/* bottom: stats + services side by side */
+.about-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  border-top: 1px solid var(--line);
+}
+.about-stats {
+  padding: 52px 48px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  justify-content: center;
+}
+.stat-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: clamp(48px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.stat-desc {
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.about-services { padding: 52px 48px; }
+.about-services .about-body-label { margin-bottom: 4px; }
+.services {
+  list-style: none;
+  border-top: 1px solid var(--line);
+  margin-top: 20px;
+}
+.services li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 300;
+  cursor: none;
+  transition: padding-left .25s var(--ease);
+}
+.services li:hover { padding-left: 12px; }
+.services li span {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+.services li span.core { color: var(--sky-dark); }
+
+@media (max-width: 768px) {
+  .about-hero { grid-template-columns: 1fr; }
+  .about-photo { min-height: 60vw; border-right: none; border-bottom: 1px solid var(--line); }
+  .about-quote { padding: 40px 20px; }
+  .about-body { grid-template-columns: 1fr; padding: 48px 20px; gap: 32px; }
+  .about-bottom { grid-template-columns: 1fr; }
+  .about-stats { border-right: none; border-bottom: 1px solid var(--line); padding: 40px 20px; }
+  .about-services { padding: 40px 20px; }
+}
+
+/* CONTACT BAR */
+.contact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.contact-cell {
+  padding: 52px 32px;
+  border-right: 1px solid var(--line);
+}
+.contact-cell:last-child { border-right: none; }
+.contact-cell h4 {
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 14px;
+}
+.contact-cell a, .contact-cell p {
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 300;
+  color: var(--ink);
+  text-decoration: none;
+  line-height: 1.7;
+  display: block;
+}
+.contact-cell a { transition: opacity .2s; }
+.contact-cell a:hover { opacity: .5; }
+
+/* CTA BAND */
+.cta-band {
+  background: var(--ink);
+  padding: 60px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(242,240,235,.1);
+}
+.cta-band h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--paper);
+}
+.cta-band h2 em { font-style: italic; }
+.cta-btn {
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  text-decoration: none;
+  border: 1px solid rgba(242,240,235,.3);
+  padding: 14px 28px;
+  transition: background .25s, color .25s;
+  white-space: nowrap;
+}
+.cta-btn:hover { background: var(--sky); color: var(--ink); border-color: var(--sky); }
+
+/* FOOTER */
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+}
+footer span, footer a {
+  font-size: 10px;
+  letter-spacing: .06em;
+  color: var(--mid);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+footer a:hover { color: var(--sky-dark); }
+
+/* OVERLAY */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  z-index: 500;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform .7s var(--ease);
+}
+#overlay.open { transform: translateY(0); }
+
+.ov-nav {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--line);
+}
+.ov-close {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: none;
+  color: var(--ink);
+  padding: 0;
+}
+.ov-close:hover { opacity: .5; }
+.ov-idx { font-size: 10px; letter-spacing: .08em; color: var(--mid); text-transform: uppercase; }
+
+.ov-body { padding: 60px 32px; }
+.ov-title {
+  font-family: var(--serif);
+  font-size: clamp(48px, 7vw, 100px);
+  font-weight: 300;
+  letter-spacing: -.04em;
+  line-height: .95;
+  margin-bottom: 60px;
+}
+
+.ov-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.ov-meta-group { margin-bottom: 28px; }
+.ov-meta-label {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 6px;
+}
+.ov-meta-val {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+.ov-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #444;
+  max-width: 560px;
+  margin-bottom: 48px;
+}
+
+.ov-imgs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ov-img-ph {
+  background: #e0dfd9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ov-img-ph:first-child {
+  grid-column: 1/-1;
+  aspect-ratio: 16/9;
+}
+.ov-img-ph { aspect-ratio: 4/3; }
+.ov-img-ph span {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 16px 20px; }
+  .hero { padding: 0 20px 36px; }
+  .hero-title { font-size: 52px; }
+  .intro { grid-template-columns: 1fr 1fr; }
+  .intro-cell:nth-child(3) { grid-column: 1/-1; border-right: none; }
+  .grid { grid-template-columns: 1fr; }
+  .grid-item:nth-child(n) { grid-column: 1; grid-row: auto; border-right: none; }
+  .about-hero { grid-template-columns: 1fr; }
+  .contact { grid-template-columns: 1fr; }
+  .contact-cell { border-right: none; padding: 36px 20px; }
+  .cta-band { flex-direction: column; align-items: flex-start; gap: 32px; padding: 48px 20px; }
+  footer { flex-direction: column; gap: 10px; padding: 16px 20px; }
+  .ov-body { padding: 32px 20px; }
+  .ov-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Studio</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <p class="hero-tag">Branding &amp; Visual Identity</p>
+  <p class="hero-index">Est. 2020</p>
+  <h1 class="hero-title" id="heroTitle">
+    Brand<br><em>identity</em><br>studio
+  </h1>
+  <div class="hero-sub" id="heroSub">
+    Small &amp; independent<br>Based in Your City<br>Available for projects
+  </div>
+</section>
+
+<!-- INTRO ROW -->
+<div class="intro reveal" id="work">
+  <div class="intro-cell">
+    <div class="intro-label">Discipline</div>
+    <div class="intro-val">Branding &amp; Visual Identity</div>
+  </div>
+  <div class="intro-cell">
+    <div class="intro-label">Approach</div>
+    <div class="intro-val">Strategic &amp; craft-driven</div>
+  </div>
+  <div class="intro-cell">
+    <div class="intro-label">Selected clients</div>
+    <div class="intro-val">Agencies, founders &amp; brands</div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>Branding</span><span class="sep">·</span>
+    <span>Visual Identity</span><span class="sep">·</span>
+    <span>Art Direction</span><span class="sep">·</span>
+    <span>Naming</span><span class="sep">·</span>
+    <span>Packaging</span><span class="sep">·</span>
+    <span>Print &amp; Collateral</span><span class="sep">·</span>
+    <span>Brand Systems</span><span class="sep">·</span>
+    <span>Strategic Design</span><span class="sep">·</span>
+    <span>Branding</span><span class="sep">·</span>
+    <span>Visual Identity</span><span class="sep">·</span>
+    <span>Art Direction</span><span class="sep">·</span>
+    <span>Naming</span><span class="sep">·</span>
+    <span>Packaging</span><span class="sep">·</span>
+    <span>Print &amp; Collateral</span><span class="sep">·</span>
+    <span>Brand Systems</span><span class="sep">·</span>
+    <span>Strategic Design</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="grid reveal" id="projectGrid">
+
+  <a class="grid-item" href="#" data-i="0">
+    <div class="grid-bg"></div>
+    <div class="grid-inner">
+      <span class="grid-num">01 — 2024</span>
+      <div>
+        <h3 class="grid-title">Aether<br>Studio</h3>
+        <p class="grid-meta">Branding · Print</p>
+        <span class="grid-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="grid-item" href="#" data-i="1">
+    <div class="grid-bg"></div>
+    <div class="grid-inner">
+      <span class="grid-num">02 — 2024</span>
+      <div>
+        <h3 class="grid-title">Norde<br>Skincare</h3>
+        <p class="grid-meta">Branding · Packaging</p>
+        <span class="grid-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="grid-item" href="#" data-i="2">
+    <div class="grid-bg"></div>
+    <div class="grid-inner">
+      <span class="grid-num">03 — 2023</span>
+      <div>
+        <h3 class="grid-title">Vault<br>Gallery</h3>
+        <p class="grid-meta">Identity · Web</p>
+        <span class="grid-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="grid-item" href="#" data-i="3">
+    <div class="grid-bg"></div>
+    <div class="grid-inner">
+      <span class="grid-num">04 — 2023</span>
+      <div>
+        <h3 class="grid-title">Kelp<br>Foods</h3>
+        <p class="grid-meta">Naming · Packaging</p>
+        <span class="grid-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="grid-item" href="#" data-i="4">
+    <div class="grid-bg"></div>
+    <div class="grid-inner">
+      <span class="grid-num">05 — 2022</span>
+      <div>
+        <h3 class="grid-title">Form<br>Collective</h3>
+        <p class="grid-meta">Identity · Motion</p>
+        <span class="grid-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+  <a class="grid-item" href="#" data-i="5">
+    <div class="grid-bg"></div>
+    <div class="grid-inner">
+      <span class="grid-num">06 — 2022</span>
+      <h3 class="grid-title">Solum Architecture</h3>
+      <div>
+        <p class="grid-meta">Full brand system</p>
+        <span class="grid-arrow">↗</span>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+<!-- ABOUT -->
+<section class="about reveal" id="about">
+
+  <!-- TOP: photo + quote -->
+  <div class="about-hero">
+    <div class="about-photo">
+      <div class="about-photo-placeholder">
+        <div class="about-photo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <span>Your photo here</span>
+      </div>
+      <p class="about-photo-tag">Your Name — Founder</p>
+    </div>
+    <div class="about-quote">
+      <div class="about-label">About</div>
+      <blockquote class="about-pull">
+        "I started this studio because I believe good design is<br>
+        never just <em>beautiful</em> — it's <em>honest.</em>"
+      </blockquote>
+      <div class="about-byline">
+        <div class="about-avatar">Y</div>
+        <div class="about-byline-text">
+          <div class="about-byline-name">Your Name</div>
+          <div class="about-byline-role">Founder &amp; Creative Director</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIDDLE: 3-column text -->
+  <div class="about-body">
+    <div>
+      <div class="about-body-label">Our story</div>
+      <p>We are a small, independent studio founded in 2020. From the beginning, the idea was simple: work with fewer clients, but go deeper with each one. No conveyor belt. No templates.</p>
+      <p>Every project begins with listening — really listening — to what a brand needs to say and to whom.</p>
+    </div>
+    <div>
+      <div class="about-body-label">How we work</div>
+      <p>We prefer long-term collaborations over one-off deliverables. We ask the uncomfortable questions early so the work can be honest and lasting.</p>
+      <p>A brand built with care in 2024 should still feel right in 2034. That's the standard we hold ourselves to.</p>
+    </div>
+    <div>
+      <div class="about-body-label">Who we work with</div>
+      <p>Founders at the start of something. Established companies that need to evolve. Cultural institutions that deserve better than generic.</p>
+      <p>If you have something worth saying and need help saying it clearly — we'd love to talk.</p>
+    </div>
+  </div>
+
+  <!-- BOTTOM: stats + services -->
+  <div class="about-bottom">
+    <div class="about-stats">
+      <div class="stat-row">
+        <div class="stat-num">48</div>
+        <div class="stat-desc">Projects<br>completed</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">5</div>
+        <div class="stat-desc">Years<br>in practice</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-num">3</div>
+        <div class="stat-desc">Countries<br>worked in</div>
+      </div>
+    </div>
+    <div class="about-services">
+      <div class="about-body-label">Services</div>
+      <ul class="services">
+        <li>Brand Strategy <span>—</span></li>
+        <li>Visual Identity <span class="core">Core</span></li>
+        <li>Art Direction <span class="core">Core</span></li>
+        <li>Naming <span>—</span></li>
+        <li>Packaging Design <span>—</span></li>
+        <li>Print &amp; Collateral <span>—</span></li>
+        <li>Brand Guidelines <span>—</span></li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT -->
+<section class="contact reveal" id="contact">
+  <div class="contact-cell">
+    <h4>New projects</h4>
+    <a href="mailto:hello@yourstudio.com">hello@yourstudio.com</a>
+  </div>
+  <div class="contact-cell">
+    <h4>Studio</h4>
+    <p>Your Street 12<br>Your City, Country</p>
+  </div>
+  <div class="contact-cell">
+    <h4>Follow</h4>
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band reveal">
+  <h2>Let's make<br>something <em>real.</em></h2>
+  <a class="cta-btn" href="mailto:hello@yourstudio.com">Start a project →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2024 Studio</span>
+  <span>Branding &amp; Visual Identity</span>
+  <a href="mailto:hello@yourstudio.com">hello@yourstudio.com</a>
+</footer>
+
+<!-- PROJECT OVERLAY -->
+<div id="overlay">
+  <div class="ov-nav">
+    <button class="ov-close" id="ovClose">← Back to work</button>
+    <span class="ov-idx" id="ovIdx">01 / 06</span>
+  </div>
+  <div class="ov-body">
+    <h2 class="ov-title" id="ovTitle">—</h2>
+    <div class="ov-grid">
+      <div id="ovMeta">
+        <div class="ov-meta-group">
+          <div class="ov-meta-label">Client</div>
+          <div class="ov-meta-val" id="ovClient">—</div>
+        </div>
+        <div class="ov-meta-group">
+          <div class="ov-meta-label">Services</div>
+          <div class="ov-meta-val" id="ovServices">—</div>
+        </div>
+        <div class="ov-meta-group">
+          <div class="ov-meta-label">Year</div>
+          <div class="ov-meta-val" id="ovYear">—</div>
+        </div>
+      </div>
+      <div>
+        <p class="ov-desc" id="ovDesc">—</p>
+        <div class="ov-imgs">
+          <div class="ov-img-ph"><span>Image 01</span></div>
+          <div class="ov-img-ph"><span>Image 02</span></div>
+          <div class="ov-img-ph"><span>Image 03</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = [
+  { title: "Aether Studio", client: "Aether Studio", services: "Branding\nPrint\nStationery", year: "2024", desc: "A complete identity for an architecture and interiors studio. The challenge was communicating precision and warmth simultaneously. A custom wordmark, restrained typographic system, and a limited palette of off-white and deep charcoal anchor the brand across all touchpoints." },
+  { title: "Norde Skincare", client: "Norde Skincare", services: "Brand strategy\nIdentity\nPackaging", year: "2024", desc: "Norde is a Scandinavian skincare brand built on clean formulations and honest ingredients. The identity draws from Nordic landscape — sparse, quiet, deeply considered. The packaging system uses a single structural element repeated across formats." },
+  { title: "Vault Gallery", client: "Vault Gallery", services: "Identity\nWebsite\nSignage", year: "2023", desc: "A gallery for collectible and limited-edition design objects. The identity was designed to not overshadow the work on display — strong enough to carry the institution, yet restrained enough to step aside. A mono-weight custom logotype and generous negative space." },
+  { title: "Kelp Foods", client: "Kelp Foods Co.", services: "Naming\nBrand strategy\nPackaging (12 SKUs)", year: "2023", desc: "A naming and branding project for a sustainable food company. We named the brand, developed its visual language, and created a packaging system that communicates respect for the ocean without leaning on tired nautical clichés." },
+  { title: "Form Collective", client: "Form Collective", services: "Identity system\nMotion\nBrand manual", year: "2022", desc: "A multidisciplinary collective of designers, architects, and researchers. A modular grid-based system allows the mark to expand and contract depending on context — detailed in print, bold at scale, fluid in motion." },
+  { title: "Solum Architecture", client: "Solum Architecture", services: "Identity\nProposals\nSignage\nEnvironmental graphics", year: "2022", desc: "An architecture practice focused on material honesty and long-term thinking. The identity is as permanent as the buildings they design — drawn from geometric first principles, adapting cleanly from embossed letterheads to large-format site signage." }
+];
+
+// cursor
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+// hero animation
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('heroBg').classList.add('loaded');
+    setTimeout(() => {
+      document.getElementById('heroTitle').classList.add('in');
+      document.getElementById('heroSub').classList.add('in');
+    }, 200);
+  }, 100);
+});
+
+// scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.07 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// overlay
+const overlay = document.getElementById('overlay');
+document.querySelectorAll('.grid-item').forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    const i = parseInt(item.dataset.i);
+    const p = data[i];
+    document.getElementById('ovTitle').textContent = p.title;
+    document.getElementById('ovClient').textContent = p.client;
+    document.getElementById('ovServices').innerHTML = p.services.replace(/\n/g,'<br>');
+    document.getElementById('ovYear').textContent = p.year;
+    document.getElementById('ovDesc').textContent = p.desc;
+    document.getElementById('ovIdx').textContent = String(i+1).padStart(2,'0') + ' / 0' + data.length;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    overlay.scrollTop = 0;
+  });
+});
+document.getElementById('ovClose').addEventListener('click', () => {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+});
+
+// smooth nav
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  const t = a.getAttribute('href');
+  if (t.length > 1) {
+    a.addEventListener('click', e => {
+      if (!a.classList.contains('cta-btn') && !a.dataset.i !== undefined) return;
+      e.preventDefault();
+      document.querySelector(t)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
